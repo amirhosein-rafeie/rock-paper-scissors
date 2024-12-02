@@ -9,23 +9,27 @@
   <body>
     <h1>Rock Paper Scissors</h1>
 
-    <div class="user-states-container">
-      <button class="state-button" onclick="play('rock')">
-        <img src="/src/images/rock-emoji.png" alt="rock" />
+    <div class="moves-button-container">
+      <button class="move-button" onclick="play('rock')">
+        <img class="move-image" src="/src/images/rock-emoji.png" alt="rock" />
       </button>
-      <button class="state-button" onclick="play('paper')">
-        <img src="/src/images/paper-emoji.png" alt="paper" />
+      <button class="move-button" onclick="play('paper')">
+        <img class="move-image" src="/src/images/paper-emoji.png" alt="paper" />
       </button>
-      <button class="state-button" onclick="play('scissors')">
-        <img src="/src/images/scissors-emoji.png" alt="scissors" />
+      <button class="move-button" onclick="play('scissors')">
+        <img
+          class="move-image"
+          src="/src/images/scissors-emoji.png"
+          alt="scissors"
+        />
       </button>
     </div>
 
-    <p id="game-state-text"></p>
+    <p class="game-state-text"></p>
 
-    <p id="game-state-image"></p>
+    <p class="game-state-image"></p>
 
-    <p id="scores">Wins: 0, Losses: 0, Ties: 0</p>
+    <p class="scores"></p>
 
     <button class="reset-button" onclick="resetScore()">Reset Score</button>
 

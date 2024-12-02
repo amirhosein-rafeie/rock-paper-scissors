@@ -4,9 +4,11 @@ const SCISSOR = "scissors";
 
 const states = [ROCK, PAPER, SCISSOR];
 
-let wins = 0;
-let losses = 0;
-let ties = 0;
+let score = JSON.parse(localStorage.getItem("score")) || {
+  wins: 0,
+  losses: 0,
+  ties: 0,
+};
 
 // Indicates whether the user has won or not.
 function userHasWon(userState, systemState) {
@@ -28,23 +30,27 @@ function userHasLost(userState, systemState) {
 
 // Show win or loss on screen
 function displayGameState(text) {
-  document.getElementById("game-state-text").innerHTML = text;
+  document.querySelector(".game-state-text").innerHTML = text;
 }
 
 // Display user and system movement on the screen
 function displayGameStateImage(userState, systemState) {
-  const container = document.getElementById("game-state-image");
+  const container = document.querySelector(".game-state-image");
   container.innerHTML = `
   You
-  <img src="/src/images/${userState}-emoji.png" alt="${userState}" />
-  <img src="/src/images/${systemState}-emoji.png" alt="${systemState}" />
+  <img class="move-image" src="/src/images/${userState}-emoji.png" alt="${userState}" />
+  <img class="move-image" src="/src/images/${systemState}-emoji.png" alt="${systemState}" />
   Computer`;
 }
 
 // Display scores on the screen
 function displayScores() {
-  const container = document.getElementById("scores");
-  container.innerHTML = `Wins: ${wins}, Losses: ${losses}, Ties: ${ties}`;
+  const container = document.querySelector(".scores");
+  container.innerHTML = `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+}
+
+function saveScoreInLocalStorage() {
+  localStorage.setItem("score", JSON.stringify(score));
 }
 
 // The score is determined based on the "user movement".
@@ -53,13 +59,16 @@ function play(userState) {
   const systemState = states[randomIndex];
 
   if (userHasWon(userState, systemState)) {
-    wins++;
+    score.wins += 1;
+    saveScoreInLocalStorage();
     displayGameState("You win.");
   } else if (userHasLost(userState, systemState)) {
-    losses++;
+    score.losses += 1;
+    saveScoreInLocalStorage();
     displayGameState("You lose.");
   } else {
-    ties++;
+    score.ties += 1;
+    saveScoreInLocalStorage();
     displayGameState("Tie.");
   }
 
@@ -68,6 +77,9 @@ function play(userState) {
 }
 
 function resetScore() {
-  (wins = 0), (losses = 0), (ties = 0);
+  localStorage.clear();
   displayScores();
 }
+
+// initial score display
+displayScores();
