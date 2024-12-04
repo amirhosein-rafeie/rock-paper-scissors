@@ -33,7 +33,8 @@ button {
   margin-top: 50px;
 }
 
-.reset-button {
+.reset-button,
+.autoplay-button {
   width: 100px;
   height: 45px;
   font-weight: bold;

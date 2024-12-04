@@ -1,3 +1,5 @@
+let intervalId;
+
 const ROCK = "rock";
 const PAPER = "paper";
 const SCISSOR = "scissors";
@@ -53,10 +55,14 @@ function saveScoreInLocalStorage() {
   localStorage.setItem("score", JSON.stringify(score));
 }
 
+function pickRandomState() {
+  const randomIndex = Math.floor(Math.random() * 3);
+  return states[randomIndex];
+}
+
 // The score is determined based on the "user movement".
 function play(userState) {
-  const randomIndex = Math.floor(Math.random() * 3);
-  const systemState = states[randomIndex];
+  const systemState = pickRandomState();
 
   if (userHasWon(userState, systemState)) {
     score.wins += 1;
@@ -77,8 +83,29 @@ function play(userState) {
 }
 
 function resetScore() {
+  score = {
+    wins: 0,
+    losses: 0,
+    ties: 0,
+  };
   localStorage.clear();
   displayScores();
+}
+
+function autoPlay() {
+  const autoPlayButtonElement = document.querySelector(".autoplay-button");
+
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+    autoPlayButtonElement.innerHTML = "Auto Play";
+  } else {
+    intervalId = setInterval(function () {
+      const userState = pickRandomState();
+      play(userState);
+    }, 1000);
+    autoPlayButtonElement.innerHTML = "Stop Play";
+  }
 }
 
 // initial score display
